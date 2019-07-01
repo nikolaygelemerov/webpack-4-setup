@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -15,7 +17,11 @@ module.exports = {
   },
   devServer: {
     contentBase: 'dist', //Tells webpack to serve everything from 'dist' folder
-    overlay: true
+    overlay: true,
+    hot: true,
+    stats: {
+      colors: true
+    }
   },
   module: {
     rules: [
@@ -46,6 +52,11 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+    // new HTMLWebpackPlugin({ template: './src/index.html' })
+  ],
+
   //https://github.com/webpack-contrib/css-loader/issues/447
   node: {
     fs: 'empty'

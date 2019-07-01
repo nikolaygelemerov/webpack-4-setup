@@ -2,7 +2,7 @@
   "presets": [
     [
       "@babel/preset-env",
-      { "targets": { "browsers": ["last 2 versions"] }, "debug": true }
+      { "targets": { "browsers": ["last 2 versions"] }, "debug": false }
     ]
   ],
   "plugins": ["@babel/plugin-transform-runtime"]
