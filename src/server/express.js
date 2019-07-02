@@ -13,11 +13,15 @@ const webpackDevMiddleware = require('webpack-dev-middleware')(
 
 const webpackHotMiddleware = require('webpack-hot-middleware')(compiler);
 
+//enable devServer middleware
 server.use(webpackDevMiddleware);
+
+//enable hot reloading
 server.use(webpackHotMiddleware);
 
 const staticMiddleware = express.static('dist'); //uses the root of our web server ('webpack-4-setup')
 
+//serve static content
 server.use(staticMiddleware);
 
 server.listen(5000, () => {

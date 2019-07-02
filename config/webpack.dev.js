@@ -27,7 +27,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        use: [{ loader: 'babel-loader' }],
+        use: [{ loader: 'babel-loader' }], //Tels webpack to parse js files with babel
         exclude: /node_modules/
       },
       {
@@ -39,8 +39,9 @@ module.exports = {
       {
         test: /\.html$/,
         use: [
-          { loader: 'file-loader', options: { name: '[name].html' } }, //Tells webpack the name of .html file
-          { loader: 'extract-loader' }, //Tells webpack to make a separate file and passes it to the 'file-loader'
+          //This work is now done by HTMLWebpackPlugin
+          // { loader: 'file-loader', options: { name: '[name].html' } }, //Tells webpack the name of .html file
+          // { loader: 'extract-loader' }, //Tells webpack to make a separate file and passes it to the 'file-loader'
           { loader: 'html-loader', options: { attrs: ['img:src'] } } //Tells webpack to do the linting and passes it to the 'extract-loader'
         ]
       },
@@ -53,8 +54,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
-    // new HTMLWebpackPlugin({ template: './src/index.html' })
+    new webpack.HotModuleReplacementPlugin(), //Tells webpack to enable hot reloading
+    new HTMLWebpackPlugin({ template: './src/index.html' }) //Tells webpack to parse specific html file
   ],
 
   //https://github.com/webpack-contrib/css-loader/issues/447
