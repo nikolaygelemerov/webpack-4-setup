@@ -1,31 +1,23 @@
 const path = require('path');
 const webpack = require('webpack');
+const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: {
     //If included 'babel-polyfill' runs before 'main.js'
     //preferable to inlcude babel-preset
     //to prevent building a huge bundle with 'babel-polyfill'
-    main: [
-      //'@babel/plugin-transform-runtime',
-      'webpack-hot-middleware/client?reload=true', //Tell webpack to include hot reloading module berfore main.js
-      './src/main.js'
-    ]
+    main: ['./src/main.js']
   },
-  mode: 'development',
+  mode: 'production',
   output: {
     filename: '[name]-bunde.js', //Tells webpack to take the 'main' 'entry' prop name
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/' //Defines the path for static recources (for example the js file in 'index.html' src path)
-  },
-  devServer: {
-    contentBase: 'dist', //Tells webpack to serve everything from 'dist' folder
-    overlay: true,
-    hot: true,
-    stats: {
-      colors: true
-    }
   },
   module: {
     rules: [
@@ -38,7 +30,10 @@ module.exports = {
         test: /\.css$/,
         //Loaders are passed in a reverse oreder, after the 'css-loader' is linted, the 'style-loader' handles
         //passing it into the style tag
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }] //Tells webpack to do the linting and passes it to the 'style-loader'
+        use: [
+          { loader: MiniCSSExtractPlugin.loader }, //Tells webpack to use the extract plugin(to generate separate css file) instead of style-loader
+          { loader: 'css-loader' } //Tells webpack to do the linting and passes it to the 'style-loader'
+        ]
       },
       {
         test: /\.(html|ejs)$/,
@@ -58,8 +53,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(), //Tells webpack to enable hot reloading
-    new webpack.NamedModulesPlugin(),
+    new OptimizeCssAssetsPlugin(),
+    new MiniCSSExtractPlugin({ filename: '[name]-[contenthash].css' }),
     new HTMLWebpackPlugin({
       template: path.resolve(__dirname, '../src/index.ejs'),
       inject: true,
