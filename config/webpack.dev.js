@@ -60,7 +60,6 @@ module.exports = {
       template: path.resolve(__dirname, '../src/index.ejs'),
       inject: true,
       title: 'Franklin'
-      //favicon: path.resolve(__dirname, '../src/favicon.ico')
     }) //Tells webpack to parse specific html file
   ],
 
