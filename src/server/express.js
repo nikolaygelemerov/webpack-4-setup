@@ -26,9 +26,9 @@ if (!isProd) {
   server.use(webpackHotMiddleware);
 }
 
-const staticMiddleware = express.static('dist'); //uses the root of our web server ('webpack-4-setup')
+const staticMiddleware = express.static('dist'); //uses the root of our web server ('webpack-4-setup') !!ignored in development
 
-//serve static content
+//serve static content !!ignored in development
 server.use(staticMiddleware);
 
 server.listen(PORT, () => {
