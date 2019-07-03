@@ -3,4 +3,4 @@
 //enable hot reloading on the client
 require('webpack-hot-middleware/client?reload=true');
 import './main.css';
-import './index.html';
+import './index.ejs';

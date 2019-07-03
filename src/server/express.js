@@ -1,29 +1,36 @@
 import express from 'express';
 import path from 'path';
-import webpack from 'webpack';
 
 const server = express();
-const config = require('../../config/webpack.dev');
-const compiler = webpack(config);
 
-const webpackDevMiddleware = require('webpack-dev-middleware')(
-  compiler,
-  config.devServer
-);
+const PORT = process.env.PORT || 8080;
 
-const webpackHotMiddleware = require('webpack-hot-middleware')(compiler);
+const isProd = process.env.NODE_ENV === 'production';
 
-//enable devServer middleware
-server.use(webpackDevMiddleware);
+if (!isProd) {
+  const webpack = require('webpack');
+  const config = require(path.join(__dirname, '../../config/webpack.dev'));
+  const compiler = webpack(config);
 
-//enable hot reloading
-server.use(webpackHotMiddleware);
+  const webpackDevMiddleware = require('webpack-dev-middleware')(
+    compiler,
+    config.devServer
+  );
+
+  const webpackHotMiddleware = require('webpack-hot-middleware')(compiler);
+
+  //enable devServer middleware
+  server.use(webpackDevMiddleware);
+
+  //enable hot reloading
+  server.use(webpackHotMiddleware);
+}
 
 const staticMiddleware = express.static('dist'); //uses the root of our web server ('webpack-4-setup')
 
 //serve static content
 server.use(staticMiddleware);
 
-server.listen(5000, () => {
-  console.log('Server is listening');
+server.listen(PORT, () => {
+  console.log(`Server is listening on http://localhost:${PORT}`);
 });
