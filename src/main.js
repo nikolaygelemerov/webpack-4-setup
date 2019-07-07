@@ -1,3 +1,3 @@
 import './main.css';
 import './nav.css';
-import './index.ejs';
+//import './index.html';

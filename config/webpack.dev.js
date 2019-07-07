@@ -41,7 +41,7 @@ module.exports = {
         use: [{ loader: 'style-loader' }, { loader: 'css-loader' }] //Tells webpack to do the linting and passes it to the 'style-loader'
       },
       {
-        test: /\.(html|ejs)$/,
+        test: /\.html$/,
         use: [
           //This work is now done by HTMLWebpackPlugin
           // { loader: 'file-loader', options: { name: '[name].html' } }, //Tells webpack the name of .html file
@@ -61,9 +61,9 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(), //Tells webpack to enable hot reloading
     new webpack.NamedModulesPlugin(),
     new HTMLWebpackPlugin({
-      template: path.resolve(__dirname, '../src/index.ejs'),
-      inject: true,
-      title: 'Franklin'
+      template: path.resolve(__dirname, '../src/index.html'),
+      title: 'Frankin'
+      // inject: true
     }) //Tells webpack to parse specific html file
   ],
 
